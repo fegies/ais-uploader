@@ -27,7 +27,7 @@
       pkgs = import nixpkgs {inherit system;};
     in {
       devenv-up = self.devShells.${system}.default.config.procfileScript;
-      hal20k = pkgs.callPackage package-defs.hal20k {};
+      ais-uploader = pkgs.callPackage package-defs.ais-uploader {};
     });
 
     devShells =
@@ -56,7 +56,7 @@
       });
 
     package-defs = {
-      hal20k = ./nix/hal20k.nix;
+      ais-uploader = ./nix/ais-uploader.nix;
     };
   };
 }
