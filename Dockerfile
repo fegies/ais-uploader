@@ -8,7 +8,7 @@ WORKDIR /tmp/build
 RUN nix \
     --extra-experimental-features "nix-command flakes" \
     --option filter-syscalls false \
-    build github:fegies/ais-uploader?rev=560a2a3e97a6a250b882cad5e5da4e77ac824a4a#ais-uploader
+    build github:orbitsailor/ais-uploader?rev=560a2a3e97a6a250b882cad5e5da4e77ac824a4a#ais-uploader
 
 # Copy the Nix store closure into a directory. The Nix store closure is the
 # entire set of Nix store values that we need for our build.
