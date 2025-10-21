@@ -8,13 +8,13 @@
 rustPlatform.buildRustPackage (
   finalAttrs: {
     pname = "ais_forwarder";
-    version = "0.1.0";
+    version = "0.1.1";
 
     nativeBuildInputs = [pkg-config];
     buildInputs = [openssl];
 
     src = fetchFromGitHub {
-      owner = "fegies";
+      owner = "orbitsailor";
       repo = "ais-uploader";
       tag = finalAttrs.version;
       hash = "sha256-EwOE//YOBKFH3NC1z3AOEAMGqAPj7cdhQmUB3I6su+Y=";
