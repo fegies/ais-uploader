@@ -8,7 +8,7 @@
 rustPlatform.buildRustPackage (
   finalAttrs: {
     pname = "ais_forwarder";
-    version = "0.1.1";
+    version = "0.1.2";
 
     nativeBuildInputs = [pkg-config];
     buildInputs = [openssl];
@@ -17,11 +17,11 @@ rustPlatform.buildRustPackage (
       owner = "orbitsailor";
       repo = "ais-uploader";
       tag = finalAttrs.version;
-      hash = "sha256-MWdwHeWcMGRRD0H1Alg2JsQ2iEidLCxLCA/hopsBWG4=";
+      hash = "sha256-LGfqzldmBzJniSb6paDqoLwFTuO0jQvgc1en12DNBKg=";
       # hash = lib.fakeHash;
     };
 
-    cargoHash = "sha256-+X7udwcDncOfm18s/4I7khG2xkjZXADd9sWQtY/ce78=";
+    cargoHash = "sha256-LLy0oiKJ5RLe2LPDdfh+90Sl4U89tudkzj4JQNkdJ7g=";
     # cargoHash = lib.fakeHash;
     strip = true;
 
