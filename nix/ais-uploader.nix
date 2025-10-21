@@ -17,10 +17,12 @@ rustPlatform.buildRustPackage (
       owner = "orbitsailor";
       repo = "ais-uploader";
       tag = finalAttrs.version;
-      hash = "sha256-EwOE//YOBKFH3NC1z3AOEAMGqAPj7cdhQmUB3I6su+Y=";
+      hash = "sha256-MWdwHeWcMGRRD0H1Alg2JsQ2iEidLCxLCA/hopsBWG4=";
+      # hash = lib.fakeHash;
     };
 
-    cargoHash = "sha256-9L2dzGMp1ttuoAbBDjQPi46i59Q1uV9PTTaqRxsW/AU=";
+    cargoHash = "sha256-+X7udwcDncOfm18s/4I7khG2xkjZXADd9sWQtY/ce78=";
+    # cargoHash = lib.fakeHash;
     strip = true;
 
     meta = {
