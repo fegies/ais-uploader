@@ -18,12 +18,12 @@ pub async fn run_upload(
 
     loop {
         let (upload_tx, upload_rx) = tokio::sync::mpsc::channel(1);
-        let mut upload_task = pin!(run_single_request(
+        let mut upload_task = pin!(tokio::task::spawn(run_single_request(
             client.clone(),
             upload_rx,
             url.clone(),
             auth_token.clone()
-        ));
+        )));
         let upload_start_instant = Instant::now();
 
         let mut recycle_timeout = pin!(tokio::time::sleep(Duration::from_secs(55)));
@@ -51,13 +51,13 @@ pub async fn run_upload(
                     else {
                         info!("upload stream source shut down, stopping upload");
                         drop(upload_tx);
-                        return upload_task.await;
+                        return upload_task.await.box_err()?;
                     }
                 },
                 _ = &mut recycle_timeout => {
                     info!("recycling connection");
                     drop(upload_tx);
-                    upload_task.await?;
+                    upload_task.await.box_err()??;
                     break;
                 }
                 upload_result = &mut upload_task => {
