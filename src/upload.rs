@@ -4,7 +4,7 @@ use reqwest::{Body, Client, Method, Request, RequestBuilder, Url};
 use tokio::{sync::mpsc, time::Instant};
 use tokio_stream::wrappers::ReceiverStream;
 use tokio_util::sync::CancellationToken;
-use tracing::{error, info};
+use tracing::{error, info, warn};
 
 pub async fn run_upload(
     shutdown_token: CancellationToken,
@@ -94,15 +94,31 @@ async fn run_single_request(
     let req = req_r.expect("Failed to build request");
 
     info!("launching upload connection");
-    let res = client
-        .execute(req)
+
+    let res = tokio::time::timeout(Duration::from_secs(90), client.execute(req))
         .await
+        .box_err()
+        .inspect_err(|_| warn!("Request deadline expired!"))?
         .and_then(|r| r.error_for_status())
-        .map_err(|e| {
-            let v: Box<dyn std::error::Error + Send> = Box::new(e);
-            v
-        })?;
+        .box_err()?;
+
     info!("upload finished cleanly with status {res:?}");
 
     Ok(())
+}
+
+trait BoxErr<T, R> {
+    fn box_err(self: Self) -> Result<T, Box<dyn std::error::Error + Send + 'static>>;
+}
+
+impl<T, R> BoxErr<T, R> for Result<T, R>
+where
+    R: std::error::Error + Send + 'static,
+{
+    fn box_err(self: Self) -> Result<T, Box<dyn std::error::Error + Send + 'static>> {
+        self.map_err(|e| {
+            let v: Box<dyn std::error::Error + Send + 'static> = Box::new(e);
+            v
+        })
+    }
 }
