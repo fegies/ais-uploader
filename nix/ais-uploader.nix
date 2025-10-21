@@ -27,7 +27,7 @@ rustPlatform.buildRustPackage (
 
     meta = {
       description = "an AIS upload and forwarding tool";
-      homepage = "https://github.com/fegies/ais-uploader";
+      homepage = "https://github.com/orbitsailor/ais-uploader";
       license = lib.licenses.mit;
     };
   }
